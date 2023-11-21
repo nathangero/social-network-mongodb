@@ -23,7 +23,9 @@ const reactionSchema = new mongoose.Schema({
         get: formatDate
     },
 }, {
-    toJSON: { getters: true }
+    toJSON: { 
+        getters: true 
+    }
 });
 
 function formatDate(createdAt) {
