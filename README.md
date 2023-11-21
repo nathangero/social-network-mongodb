@@ -19,3 +19,11 @@
 
 
 ### Resources
+
+[Regex for email](https://regexr.com/3e48o)
+
+[Idea for mongoose populate](https://stackoverflow.com/a/18002078)
+
+[Mongoose docs: virtuals](https://mongoosejs.com/docs/tutorials/virtuals.html)
+
+[Mongoose docs: populate and reference](https://mongoosejs.com/docs/populate.html)
