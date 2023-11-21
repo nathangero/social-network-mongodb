@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Reaction = require("./Reaction");
 
 const thoughtSchema = new mongoose.Schema({
     thoughtText: {
@@ -18,7 +19,7 @@ const thoughtSchema = new mongoose.Schema({
         required: true
     },
     reactions: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'Reactions'
+        type: mongoose.Schema.Types.ObjectId, ref: 'Reaction'
     }
 });
 

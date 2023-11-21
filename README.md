@@ -27,3 +27,5 @@
 [Mongoose docs: virtuals](https://mongoosejs.com/docs/tutorials/virtuals.html)
 
 [Mongoose docs: populate and reference](https://mongoosejs.com/docs/populate.html)
+
+[Mongoose docs: getters/setters](https://mongoosejs.com/docs/tutorials/getters-setters.html)
