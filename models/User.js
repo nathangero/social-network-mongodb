@@ -16,18 +16,18 @@ const userSchema = new mongoose.Schema({
             message: "Email validation failed"
         }
     },
-    thoughts: {
+    thoughts: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'Thought'
-    },
-    friends: {
+    }],
+    friends: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'User'
-    }
+    }]
 });
 
-userSchema.virutal('friendCount').get(() => this.friends.length);
+userSchema.virutal('friendCount').get(function () {
+    return this.friends.length;
+});
 
 const User = mongoose.model("User", userSchema);
-
-
 
 module.exports = User;

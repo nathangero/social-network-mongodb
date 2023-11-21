@@ -22,12 +22,14 @@ const reactionSchema = new mongoose.Schema({
         default: Date.now,
         get: formatDate
     },
+}, {
+    toJSON: { getters: true }
 });
 
 function formatDate(createdAt) {
     const month = createdAt.getMonth() + 1;
     const date = createdAt.getDate();
-    const year = createdAt.getYear();
+    const year = createdAt.getFullYear();
 
     const hour = createdAt.getHour();
     const minute = createdAt.getMinute();
