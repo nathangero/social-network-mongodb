@@ -17,10 +17,10 @@ const userSchema = new mongoose.Schema({
         }
     },
     thoughts: [{
-        type: mongoose.Types.ObjectId, ref: 'Thought'
+        type: mongoose.Schema.Types.ObjectId, ref: 'Thought'
     }],
     friends: [{
-        type: mongoose.Types.ObjectId, ref: 'User'
+        type: mongoose.Schema.Types.ObjectId, ref: 'User'
     }],
 }, {
     toJSON: {

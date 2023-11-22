@@ -4,7 +4,9 @@ const { User, Thought } = require('../models');
 module.exports = {
     async getUsers(req, res) {
         try {
-            const users = await User.find({});
+            const users = await User
+                .find({})
+                .populate(['thoughts', 'friends'])
 
             return res.status(200).json(users);
         } catch (error) {
@@ -14,7 +16,9 @@ module.exports = {
     },
     async getSingleUser(req, res) {
         try {
-            const user = await User.findOne({ _id: new ObjectId(req.params.id)});
+            const user = await User
+                .findOne({ _id: new ObjectId(req.params.id)})
+                .populate(['thoughts', 'friends']);
 
             return res.status(200).json(user);
         } catch (error) {
