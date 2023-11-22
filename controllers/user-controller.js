@@ -17,7 +17,7 @@ module.exports = {
     async getSingleUser(req, res) {
         try {
             const user = await User
-                .findOne({ _id: new ObjectId(req.params.id)})
+                .findById(req.params.id)
                 .populate(['thoughts', 'friends']);
 
             return res.status(200).json(user);
@@ -68,8 +68,8 @@ module.exports = {
             const userId = req.params.userId;
             const friendId = req.params.friendId;
             
-            const userAddFriend = await User.findOneAndUpdate(
-                { _id: new ObjectId(userId) }, 
+            const userAddFriend = await User.findByIdAndUpdate(
+                userId, 
                 { $addToSet: { friends: friendId }},
             )   
 
@@ -79,8 +79,8 @@ module.exports = {
                 return;
             }
 
-            const friendAddUser = await User.findOneAndUpdate(
-                { _id: new ObjectId(friendId) }, 
+            const friendAddUser = await User.findByIdAndUpdate(
+                friendId, 
                 { $addToSet: { friends: userId }},
                 { new: true }
             )
@@ -104,13 +104,13 @@ module.exports = {
                 return;
             }
 
-            const userAddFriend = await User.findOneAndUpdate(
-                { _id: new ObjectId(userId) }, 
+            const userAddFriend = await User.findByIdAndUpdate(
+                userId, 
                 { $pull: { friends: friendId }},
             )
 
-            const friendAddUser = await User.findOneAndUpdate(
-                { _id: new ObjectId(friendId) }, 
+            const friendAddUser = await User.findByIdAndUpdate(
+                friendId, 
                 { $pull: { friends: userId }},
                 { new: true }
             )
