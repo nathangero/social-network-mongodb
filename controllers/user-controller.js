@@ -43,7 +43,9 @@ module.exports = {
     },
     async deleteUser(req, res) {
         try {
+            const deletedUser = await User.deleteOne({ _id: new ObjectId(req.params.id) })
 
+            res.status(200).json(deletedUser);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
