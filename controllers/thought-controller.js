@@ -45,7 +45,7 @@ module.exports = {
                 updatedUser: updatedUser
             }
 
-            console.log("results:", results);
+            // console.log("results:", results);
 
             res.status(200).json(results);
             // res.status(200).json({ message: `Posted new thought by ${newThought.username}`});
@@ -82,7 +82,12 @@ module.exports = {
                 { new: true }
             )
 
-            res.status(200).json(updatedUser)
+            const results = {
+                deletedThought: deletedThought,
+                updatedUser: updatedUser
+            }
+
+            res.status(200).json(results)
             // res.status(200).json({ message: "deleted thought" })
         } catch (error) {
             console.log(error);

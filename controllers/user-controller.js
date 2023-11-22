@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongoose').Types;
-const { User } = require('../models');
+const { User, Thought } = require('../models');
 
 module.exports = {
     async getUsers(req, res) {
@@ -56,7 +56,30 @@ module.exports = {
         try {
             const deletedUser = await User.findByIdAndDelete({ _id: new ObjectId(req.params.id) })
 
-            res.status(200).json(deletedUser);
+            const deletedThoughts = [];
+            deletedUser.thoughts.forEach(async (thought) => {
+                const deletedThought = await Thought.findByIdAndDelete(new ObjectId(thought._id))
+                deletedThoughts.push(deletedThought);
+            })
+
+            const deletedFriends = [];
+            deletedUser.friends.forEach(async (friend) => {
+                const deletedFriend = await User.findByIdAndUpdate(
+                    friend._id, 
+                    { $pull: { friends: new ObjectId(req.params.id) }},
+                    { new: true }
+                )
+                deletedFriends.push(deletedFriend);
+            })
+
+            const results = {
+                deletedUser: deletedUser,
+                deletedThoughts: deletedThoughts,
+                deletedFriends: deletedFriends,
+            }
+            // console.log("deletedThoughts:", deletedThoughts);
+
+            res.status(200).json(results);
             // res.status(200).json({ message: `deleted ${deletedUser.username}`});
         } catch (error) {
             console.log(error);
