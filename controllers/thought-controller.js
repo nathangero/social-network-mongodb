@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongoose').Types;
-const { Thought } = require('../models');
+const { User, Thought } = require('../models');
 
 module.exports = {
     async getThoughts(req, res) {
@@ -24,7 +24,21 @@ module.exports = {
     },
     async createThought(req, res) {
         try {
-            
+            const newThought = await Thought.create(req.body)
+
+            // Add the new thought id to the user who posted it
+            const updatedUser = await User.findOneAndUpdate(
+                { username: newThought.username },
+                { $addToSet: { thoughts: newThought.id }},
+                { new: true }
+            )
+
+            const results = {
+                newThought: newThought,
+                updatedUser: updatedUser
+            }
+
+            res.status(200).json(results);
         } catch (error) {
             console.log(error);
             res.status(500).json(error)
