@@ -36,7 +36,7 @@ module.exports = {
             // Add the new thought id to the user who posted it
             const updatedUser = await User.findOneAndUpdate(
                 { username: newThought.username },
-                { $addToSet: { thoughts: newThought.id }},
+                { $addToSet: { thoughts: newThought._id }},
                 { new: true }
             )
 
@@ -45,7 +45,10 @@ module.exports = {
                 updatedUser: updatedUser
             }
 
-            res.status(200).json({ message: `Posted new thought by ${newThought.username}`});
+            console.log("results:", results);
+
+            res.status(200).json(results);
+            // res.status(200).json({ message: `Posted new thought by ${newThought.username}`});
         } catch (error) {
             console.log(error);
             res.status(500).json(error)
@@ -59,7 +62,8 @@ module.exports = {
                 { new: true }
             );
 
-            res.status(200).json({ message: "Updated thought" });
+            res.status(200).json(updatedThought);
+            // res.status(200).json({ message: "Updated thought" });
         } catch (error) {
             console.log(error);
             res.status(500).json(error)
@@ -67,13 +71,19 @@ module.exports = {
     },
     async deleteThought(req, res) {
         try {
-            const deletedThought = await Thought.findByIdAndDelete({ _id: new ObjectId(req.params.id) })
+            const thoughtId = req.params.id;
 
-            // const updatedUser = await User.findOneAndDelete(
-            //     { username: deletedThought.username },
-            // )
+            const deletedThought = await Thought.findByIdAndDelete({ _id: new ObjectId(thoughtId) })
 
-            res.status(200).json({ message: "deleted thought" })
+            // Delete the thought id from the user 
+            const updatedUser = await User.findOneAndUpdate(
+                { username: deletedThought.username },
+                { $pull: { thoughts: thoughtId }},
+                { new: true }
+            )
+
+            res.status(200).json(updatedUser)
+            // res.status(200).json({ message: "deleted thought" })
         } catch (error) {
             console.log(error);
             res.status(500).json(error)
