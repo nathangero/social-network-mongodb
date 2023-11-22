@@ -60,6 +60,25 @@ module.exports = {
         try {
             const userId = req.params.userId;
             const friendId = req.params.friendId;
+            
+            const userAddFriend = await User.findOneAndUpdate(
+                { _id: new ObjectId(userId) }, 
+                { $addToSet: { friends: friendId }},
+            )   
+
+            // Check if the user is already friends with the user they're trying to friend or not
+            if (userAddFriend.friends.includes(friendId)) {
+                res.status(200).json({ message: `${userAddFriend.username} is already friends with this user`});
+                return;
+            }
+
+            const friendAddUser = await User.findOneAndUpdate(
+                { _id: new ObjectId(friendId) }, 
+                { $addToSet: { friends: userId }},
+                { new: true }
+            )
+
+            res.status(200).json({ message: `${userAddFriend.username} added friend ${friendAddUser.username}` });
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
