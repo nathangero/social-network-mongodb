@@ -25,7 +25,8 @@ const reactionSchema = new mongoose.Schema({
 }, {
     toJSON: { 
         getters: true 
-    }
+    },
+    id: false
 });
 
 function formatDate(createdAt) {
@@ -33,8 +34,8 @@ function formatDate(createdAt) {
     const date = createdAt.getDate();
     const year = createdAt.getFullYear();
 
-    const hour = createdAt.getHour();
-    const minute = createdAt.getMinute();
+    const hour = createdAt.getHours();
+    const minute = createdAt.getMinutes();
 
     return `${month}/${date}/${year} - ${hour}:${minute}`
 }

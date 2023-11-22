@@ -24,6 +24,8 @@
 
 [Idea for mongoose populate](https://stackoverflow.com/a/18002078)
 
+[Model update with $addToSet](https://stackoverflow.com/a/13405495)
+
 [Mongoose docs: virtuals](https://mongoosejs.com/docs/tutorials/virtuals.html)
 
 [Mongoose docs: populate and reference](https://mongoosejs.com/docs/populate.html)
