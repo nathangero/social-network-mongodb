@@ -30,7 +30,7 @@ module.exports = {
         try {
             const newUser = await User.create(req.body)
 
-            res.status(200).json(newUser);
+            res.status(200).json({ message: `added user ${newUser.username}`});
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
@@ -54,7 +54,7 @@ module.exports = {
         try {
             const deletedUser = await User.findByIdAndDelete({ _id: new ObjectId(req.params.id) })
 
-            res.status(200).json(deletedUser);
+            res.status(200).json({ message: `deleted ${deletedUser.username}`});
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);

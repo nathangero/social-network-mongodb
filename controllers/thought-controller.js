@@ -38,7 +38,7 @@ module.exports = {
                 updatedUser: updatedUser
             }
 
-            res.status(200).json({ message: "Posted new thought"});
+            res.status(200).json({ message: `Posted new thought by ${newThought.username}`});
         } catch (error) {
             console.log(error);
             res.status(500).json(error)
@@ -46,7 +46,6 @@ module.exports = {
     },
     async updateThought(req, res) {
         try {
-
             const updatedThought = await Thought.findByIdAndUpdate(
                 { _id: req.params.id },
                 req.body,
@@ -61,7 +60,13 @@ module.exports = {
     },
     async deleteThought(req, res) {
         try {
-            
+            const deletedThought = await Thought.findByIdAndDelete({ _id: new ObjectId(req.params.id) })
+
+            // const updatedUser = await User.findOneAndDelete(
+            //     { username: deletedThought.username },
+            // )
+
+            res.status(200).json({ message: "deleted thought" })
         } catch (error) {
             console.log(error);
             res.status(500).json(error)
