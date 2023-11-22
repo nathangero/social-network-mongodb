@@ -17,7 +17,7 @@ module.exports = {
     async getSingleUser(req, res) {
         try {
             const user = await User
-                .findById(req.params.id)
+                .findById(new ObjectId(req.params.id))
                 .populate(['thoughts', 'friends']);
 
             return res.status(200).json(user);
@@ -40,7 +40,7 @@ module.exports = {
     async updateUser(req, res) {
         try {
             const updatedUser = await User.findByIdAndUpdate(
-                { _id: req.params.id }, 
+                { _id: new ObjectId(req.params.id) }, 
                 req.body, 
                 { new: true }
             );

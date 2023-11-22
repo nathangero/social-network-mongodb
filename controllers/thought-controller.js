@@ -14,7 +14,7 @@ module.exports = {
     },
     async getSingleThought(req, res) {
         try {
-            const thought = await Thought.findById(req.params.id)
+            const thought = await Thought.findById(new ObjectId(req.params.id))
 
             res.status(200).json(thought)
         } catch (error) {
@@ -57,7 +57,7 @@ module.exports = {
     async updateThought(req, res) {
         try {
             const updatedThought = await Thought.findByIdAndUpdate(
-                req.params.id,
+                new ObjectId(req.params.id),
                 req.body,
                 { new: true }
             );
@@ -71,9 +71,9 @@ module.exports = {
     },
     async deleteThought(req, res) {
         try {
-            const thoughtId = req.params.id;
+            const thoughtId = new ObjectId(req.params.id);
 
-            const deletedThought = await Thought.findByIdAndDelete(req.params.id)
+            const deletedThought = await Thought.findByIdAndDelete(thoughtId)
 
             // Delete the thought id from the user 
             const updatedUser = await User.findOneAndUpdate(
@@ -95,7 +95,7 @@ module.exports = {
             reaction["reactionId"] = new ObjectId(); // Manually create a new reactionId to prevent duplicate reactionIds
 
             const updatedThought = await Thought.findByIdAndUpdate(
-                req.params.id,
+                new ObjectId(req.params.id),
                 { $push: { reactions: req.body }},
                 { new: true }
             )
@@ -110,7 +110,7 @@ module.exports = {
         try {
             // Go into the reactions array, then target the specific reactionId
             const updatedThought = await Thought.findByIdAndUpdate(
-                req.params.id,
+                new ObjectId(req.params.id),
                 { $pull: { reactions: { reactionId: req.body.reactionId } }},
                 { new: true }
             )
