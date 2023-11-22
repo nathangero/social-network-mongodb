@@ -17,10 +17,10 @@ const userSchema = new mongoose.Schema({
         }
     },
     thoughts: [{
-        type: mongoose.Schema.Types.ObjectId, ref: 'Thought'
+        type: mongoose.Types.ObjectId, ref: 'Thought'
     }],
     friends: [{
-        type: mongoose.Schema.Types.ObjectId, ref: 'User'
+        type: mongoose.Types.ObjectId, ref: 'User'
     }]
 }, {
     toJSON: {
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-userSchema.virutal('friendCount').get(function () {
+userSchema.virtual('friendCount').get(function () {
     return this.friends.length;
 });
 
