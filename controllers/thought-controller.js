@@ -91,7 +91,8 @@ module.exports = {
     },
     async addReaction(req, res) {
         try {
-            const updatedThought = await Thought.findByIdAndUpdate(req.params.id,
+            const updatedThought = await Thought.findByIdAndUpdate(
+                req.params.id,
                 { $push: { reactions: req.body }},
                 { new: true }
             )
@@ -104,7 +105,14 @@ module.exports = {
     },
     async deleteReaction(req, res) {
         try {
-            
+            // Go into the reactions array, then target the specific reactionId
+            const updatedThought = await Thought.findByIdAndUpdate(
+                req.params.id,
+                { $pull: { reactions: { reactionId: req.body.reactionId } }},
+                { new: true }
+            )
+
+            res.status(200).json(updatedThought);
         } catch (error) {
             console.log(error);
             res.status(500).json(error)
