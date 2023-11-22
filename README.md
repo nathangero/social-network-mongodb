@@ -9,6 +9,12 @@
 ## Usage
 
 
+## Walkthrough Videos
+
+https://github.com/nathangero/social-network-mongodb/assets/25491849/86e25d4d-0f10-45ec-942b-9ce896278abe
+
+Thoughts/Reactions
+
 ## Learning Points
 
 
