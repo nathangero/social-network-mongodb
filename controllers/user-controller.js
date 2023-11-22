@@ -24,7 +24,6 @@ module.exports = {
     },
     async createUser(req, res) {
         try {
-            console.log("req.body:", req.body);
             const newUser = await User.create(req.body)
 
             res.status(200).json(newUser);
@@ -35,7 +34,13 @@ module.exports = {
     },
     async updateUser(req, res) {
         try {
-            
+            const updatedUser = await User.findByIdAndUpdate(
+                { _id: req.params.id }, 
+                req.body, 
+                { new: true }
+            );
+
+            res.status(200).json(updatedUser);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
@@ -43,7 +48,7 @@ module.exports = {
     },
     async deleteUser(req, res) {
         try {
-            const deletedUser = await User.deleteOne({ _id: new ObjectId(req.params.id) })
+            const deletedUser = await User.findByIdAndDelete({ _id: new ObjectId(req.params.id) })
 
             res.status(200).json(deletedUser);
         } catch (error) {
