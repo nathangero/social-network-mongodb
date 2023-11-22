@@ -91,6 +91,9 @@ module.exports = {
     },
     async addReaction(req, res) {
         try {
+            const reaction = req.body;
+            reaction["reactionId"] = new ObjectId(); // Manually create a new reactionId to prevent duplicate reactionIds
+
             const updatedThought = await Thought.findByIdAndUpdate(
                 req.params.id,
                 { $push: { reactions: req.body }},
