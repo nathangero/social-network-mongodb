@@ -38,7 +38,7 @@ module.exports = {
                 updatedUser: updatedUser
             }
 
-            res.status(200).json(results);
+            res.status(200).json({ message: "Posted new thought"});
         } catch (error) {
             console.log(error);
             res.status(500).json(error)
@@ -46,7 +46,14 @@ module.exports = {
     },
     async updateThought(req, res) {
         try {
-            
+
+            const updatedThought = await Thought.findByIdAndUpdate(
+                { _id: req.params.id },
+                req.body,
+                { new: true }
+            );
+
+            res.status(200).json({ message: "Updated thought" });
         } catch (error) {
             console.log(error);
             res.status(500).json(error)

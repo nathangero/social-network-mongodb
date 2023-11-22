@@ -44,7 +44,7 @@ module.exports = {
                 { new: true }
             );
 
-            res.status(200).json(updatedUser);
+            res.status(200).json({ message: "updated user"});
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
