@@ -88,6 +88,27 @@ module.exports = {
         try {
             const userId = req.params.userId;
             const friendId = req.params.friendId;
+            
+            const user = await User.findById({ _id: new ObjectId(userId) });
+
+            // Check if the user is already friends with the user they're trying to delete or not
+            if (!user.friends.includes(friendId)) {
+                res.status(200).json({ message: `${user.username} is not friends with the user`});
+                return;
+            }
+
+            const userAddFriend = await User.findOneAndUpdate(
+                { _id: new ObjectId(userId) }, 
+                { $pull: { friends: friendId }},
+            )
+
+            const friendAddUser = await User.findOneAndUpdate(
+                { _id: new ObjectId(friendId) }, 
+                { $pull: { friends: userId }},
+                { new: true }
+            )
+
+            res.status(200).json({ message: `${userAddFriend.username} removed friend ${friendAddUser.username}` });
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
