@@ -40,8 +40,8 @@ module.exports = {
     async updateUser(req, res) {
         try {
             const updatedUser = await User.findByIdAndUpdate(
-                { _id: new ObjectId(req.params.id) }, 
-                req.body, 
+                { _id: new ObjectId(req.params.id) },
+                req.body,
                 { new: true }
             );
 
@@ -65,8 +65,8 @@ module.exports = {
             const deletedFriends = [];
             deletedUser.friends.forEach(async (friend) => {
                 const deletedFriend = await User.findByIdAndUpdate(
-                    friend._id, 
-                    { $pull: { friends: new ObjectId(req.params.id) }},
+                    friend._id,
+                    { $pull: { friends: new ObjectId(req.params.id) } },
                     { new: true }
                 )
                 deletedFriends.push(deletedFriend);
@@ -90,25 +90,28 @@ module.exports = {
         try {
             const userId = req.params.userId;
             const friendId = req.params.friendId;
-            
+
             const userAddFriend = await User.findByIdAndUpdate(
-                userId, 
-                { $addToSet: { friends: friendId }},
-            )   
+                userId,
+                { $addToSet: { friends: friendId } },
+            )
 
             // Check if the user is already friends with the user they're trying to friend or not
             if (userAddFriend.friends.includes(friendId)) {
-                res.status(200).json({ message: `${userAddFriend.username} is already friends with this user`});
+                res.status(200).json({ message: `${userAddFriend.username} is already friends with this user` });
                 return;
             }
 
             const friendAddUser = await User.findByIdAndUpdate(
-                friendId, 
-                { $addToSet: { friends: userId }},
+                friendId,
+                { $addToSet: { friends: userId } },
                 { new: true }
             )
 
-            res.status(200).json({ message: `${userAddFriend.username} added friend ${friendAddUser.username}` });
+            res.status(200).json({
+                message: `${userAddFriend.username} added friend ${friendAddUser.username}`,
+                userAddFriend: userAddFriend
+            });
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
@@ -118,27 +121,31 @@ module.exports = {
         try {
             const userId = req.params.userId;
             const friendId = req.params.friendId;
-            
+
             const user = await User.findById({ _id: new ObjectId(userId) });
 
             // Check if the user is already friends with the user they're trying to delete or not
             if (!user.friends.includes(friendId)) {
-                res.status(200).json({ message: `${user.username} is not friends with the user`});
+                res.status(200).json({ message: `${user.username} is not friends with the user` });
                 return;
             }
 
-            const userAddFriend = await User.findByIdAndUpdate(
-                userId, 
-                { $pull: { friends: friendId }},
+            const userDeleteFriend = await User.findByIdAndUpdate(
+                userId,
+                { $pull: { friends: friendId } },
             )
 
-            const friendAddUser = await User.findByIdAndUpdate(
-                friendId, 
-                { $pull: { friends: userId }},
+            const friendDeleteUser = await User.findByIdAndUpdate(
+                friendId,
+                { $pull: { friends: userId } },
                 { new: true }
             )
 
-            res.status(200).json({ message: `${userAddFriend.username} removed friend ${friendAddUser.username}` });
+            res.status(200).json({
+                message: `${userAddFriend.username} removed friend ${friendAddUser.username}`,
+                userDeleteFriend: userDeleteFriend,
+                friendDeleteUser: friendDeleteUser
+            });
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
