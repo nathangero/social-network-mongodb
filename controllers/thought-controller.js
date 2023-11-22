@@ -14,7 +14,7 @@ module.exports = {
     },
     async getSingleThought(req, res) {
         try {
-            const thought = await Thought.findById({ _id: req.params.id })
+            const thought = await Thought.findById(req.params.id)
 
             res.status(200).json(thought)
         } catch (error) {
@@ -57,7 +57,7 @@ module.exports = {
     async updateThought(req, res) {
         try {
             const updatedThought = await Thought.findByIdAndUpdate(
-                { _id: req.params.id },
+                req.params.id,
                 req.body,
                 { new: true }
             );
@@ -73,7 +73,7 @@ module.exports = {
         try {
             const thoughtId = req.params.id;
 
-            const deletedThought = await Thought.findByIdAndDelete({ _id: new ObjectId(thoughtId) })
+            const deletedThought = await Thought.findByIdAndDelete(req.params.id)
 
             // Delete the thought id from the user 
             const updatedUser = await User.findOneAndUpdate(
@@ -91,7 +91,12 @@ module.exports = {
     },
     async addReaction(req, res) {
         try {
-            
+            const updatedThought = await Thought.findByIdAndUpdate(req.params.id,
+                { $push: { reactions: req.body }},
+                { new: true }
+            )
+
+            res.status(200).json(updatedThought);
         } catch (error) {
             console.log(error);
             res.status(500).json(error)
