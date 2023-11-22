@@ -110,7 +110,7 @@ module.exports = {
 
             res.status(200).json({
                 message: `${userAddFriend.username} added friend ${friendAddUser.username}`,
-                userAddFriend: userAddFriend
+                friendAddUser: friendAddUser
             });
         } catch (error) {
             console.log(error);
@@ -142,7 +142,7 @@ module.exports = {
             )
 
             res.status(200).json({
-                message: `${userAddFriend.username} removed friend ${friendAddUser.username}`,
+                message: `${userDeleteFriend.username} removed friend ${friendDeleteUser.username}`,
                 userDeleteFriend: userDeleteFriend,
                 friendDeleteUser: friendDeleteUser
             });
