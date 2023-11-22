@@ -13,21 +13,55 @@ module.exports = {
         }
     },
     async getSingleUser(req, res) {
+        try {
+            const user = await User.findOne({ _id: new ObjectId(req.params.id)});
 
+            return res.status(200).json(user);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
     },
     async createUser(req, res) {
-
+        try {
+            
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
     },
     async updateUser(req, res) {
-
+        try {
+            
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
     },
     async deleteUser(req, res) {
+        try {
 
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
     },
     async addFriend(req, res) {
-
+        try {
+            const userId = req.params.userId;
+            const friendId = req.params.friendId;
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
     },
     async deleteFriend(req, res) {
-
+        try {
+            const userId = req.params.userId;
+            const friendId = req.params.friendId;
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
     }
 }
