@@ -21,11 +21,12 @@ const userSchema = new mongoose.Schema({
     }],
     friends: [{
         type: mongoose.Types.ObjectId, ref: 'User'
-    }]
+    }],
 }, {
     toJSON: {
         virtuals: true
-    }
+    },
+    id: false,
 });
 
 userSchema.virtual('friendCount').get(function () {
