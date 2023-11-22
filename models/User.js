@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
         unique: true, 
         require: true, 
         validate: {
-            validator: (email) => RegExp('/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/').test(email),
+            validator: (email) => RegExp(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/).test(email),
             message: "Email validation failed"
         }
     },
