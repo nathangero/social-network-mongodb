@@ -24,6 +24,13 @@ module.exports = {
     },
     async createThought(req, res) {
         try {
+            const user = await User.findOne({ username: req.body.username })
+
+            if (!user) {
+                res.status(404).json({ message: "Can't post a thought for a non-existent user" })
+                return;
+            }
+
             const newThought = await Thought.create(req.body)
 
             // Add the new thought id to the user who posted it
